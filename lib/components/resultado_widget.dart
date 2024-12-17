@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
 
 class ResultadoWidget extends StatelessWidget implements PreferredSizeWidget {
-  final bool venceu;
-  final Function onReiniciar;
+  final bool? venceu;
+  final Function()? onReiniciar;
 
   const ResultadoWidget({
-    super.key,
     required this.venceu,
     required this.onReiniciar,
+    super.key,
   });
 
   Color _getCor() {
-    if (venceu) {
-      return Colors.green;
+    if (venceu == null) {
+      return Colors.yellow;
+    } else if (venceu!) {
+      return Colors.green[300]!;
     } else {
-      return Colors.red;
+      return Colors.red[300]!;
     }
   }
 
   IconData _getIcon() {
-    if (venceu) {
+    if (venceu == null) {
+      return Icons.sentiment_satisfied;
+    } else if (venceu!) {
       return Icons.sentiment_very_satisfied;
     } else {
-      return Icons.sentiment_dissatisfied;
+      return Icons.sentiment_very_dissatisfied;
     }
   }
 
@@ -31,21 +35,22 @@ class ResultadoWidget extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       color: Colors.grey,
       child: SafeArea(
-          child: Container(
-        padding: const EdgeInsets.all(10),
-        child: CircleAvatar(
-          backgroundColor: _getCor(),
-          child: IconButton(
-            onPressed: () => onReiniciar(),
-            padding: const EdgeInsets.all(0),
-            icon: Icon(
-              _getIcon(),
-              color: Colors.black,
-              size: 35,
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          child: CircleAvatar(
+            backgroundColor: _getCor(),
+            child: IconButton(
+              padding: const EdgeInsets.all(0),
+              icon: Icon(
+                _getIcon(),
+                color: Colors.black,
+                size: 35,
+              ),
+              onPressed: onReiniciar,
             ),
           ),
         ),
-      )),
+      ),
     );
   }
 
